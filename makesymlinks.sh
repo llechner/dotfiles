@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 ############################
 # .make.sh
 # This script creates symlinks from the home directory to any desired dotfiles in ~/dotfiles
@@ -10,7 +10,7 @@ dir=~/dotfiles                    # dotfiles directory
 olddir=~/dotfiles_old             # old dotfiles backup directory
 
 # list of files/folders to symlink in homedir
-files="bashrc bash_aliases inputrc emacs vimrc vim rootalias rootrc ssh_config tmux.conf tmux.conf.local zathurarc"
+files="bash_aliases bashrc inputrc latexmkrc nanorc nano rootalias rootrc ssh_config vimrc vim"
 ##########
 
 # create dotfiles_old in homedir
@@ -20,7 +20,7 @@ echo "done"
 
 # change to the dotfiles directory
 echo -n "Changing to the $dir directory ..."
-cd $dir
+cd $dir || exit
 echo "done"
 
 # move any existing dotfiles in homedir to dotfiles_old directory,
@@ -28,23 +28,14 @@ echo "done"
 # directory specified in $files
 echo "Moving any existing dotfiles to $olddir"
 for file in $files; do
-	if [ "$file" == "zathurarc" ]; then
-		mv -v ~/.config/zathura/zathurarc $olddir
-		echo "Creating symlink to $file in home directory."
-		ln -s $dir/$file ~/.config/zathura/zathurarc
-	elif [ "$file" == "ssh_config" ]; then
+    if [ ${file} = "ssh_config" ]; then
 		mv -v ~/.ssh/config $olddir
 		echo "Creating symlink to $file in home directory."
-		ln -s $dir/$file ~/.ssh/config
+		ln -s $dir/${file} ~/.ssh/config
 	else
-		mv -v ~/.$file $olddir
+		mv -v ~/."$file" $olddir
 		echo "Creating symlink to $file in home directory."
-		ln -s $dir/$file ~/.$file
+		ln -s $dir/${file} ~/.$file
 	fi
 done
-
-echo "Moving 'mimeapps.list' from '~/.config/' to $olddir"
-mv ~/.config/mimeapps.list $olddir
-echo "Creating symlink to 'mimeapps.list' in '~/.config/'"
-ln -s $dir/mimeapps.list ~/.config/mimeapps.list
 

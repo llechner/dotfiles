@@ -8,3 +8,8 @@ set show-all-if-ambiguous on
 
 #Enable colours when using tab completion
 set colored-stats on
+
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+"\e[C": forward-char
+"\e[D": backward-char
