@@ -39,3 +39,5 @@ for file in $files; do
 	fi
 done
 
+rm /bin/sh
+ln -s /bin/bash /bin/sh
